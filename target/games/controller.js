@@ -11,15 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 const entity_1 = require("./entity");
@@ -50,13 +41,13 @@ let GameController = class GameController {
             throw new routing_controllers_1.NotFoundError('Too many moves');
         return entity_1.default.merge(game, update).save();
     }
-    async createGame(game) {
-        const rest = __rest(game, []);
+    createGame(name) {
         const colors = ['red', 'blue', 'green', 'yellow', 'magenta'];
-        const colorSelection = `${colors[Math.floor(Math.random() * colors.length)]}`;
-        game.color = `${colorSelection}`;
-        const entity = await entity_1.default.create(rest);
-        return entity.save();
+        const colorSelection = colors[Math.floor(Math.random() * colors.length)];
+        const newGame = new entity_1.default();
+        newGame.name = name;
+        newGame.color = colorSelection;
+        return newGame.save();
     }
 };
 __decorate([
@@ -82,10 +73,10 @@ __decorate([
 ], GameController.prototype, "updateGame", null);
 __decorate([
     routing_controllers_1.Post('/games'),
-    __param(0, routing_controllers_1.Body()),
+    __param(0, routing_controllers_1.BodyParam("name")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [entity_1.default]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
 ], GameController.prototype, "createGame", null);
 GameController = __decorate([
     routing_controllers_1.JsonController()
