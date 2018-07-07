@@ -6,7 +6,7 @@
   "author": "ChristopheSnacken <c.snacken@gmail.com>",
   "scripts": {
     "start": "nodemon",
-    "compile": "tsc ."
+    "compile": "tsc"
   },
   "dependencies": {
     "@types/koa": "^2.0.46",
