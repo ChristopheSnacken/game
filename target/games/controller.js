@@ -23,6 +23,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 const entity_1 = require("./entity");
+const class_validator_1 = require("class-validator");
+const validator = new class_validator_1.Validator();
 let GameController = class GameController {
     getGame(id) {
         return entity_1.default.findOne(id);
@@ -35,7 +37,8 @@ let GameController = class GameController {
         const game = await entity_1.default.findOne(id);
         if (!game)
             throw new routing_controllers_1.NotFoundError('Cannot find game');
-        if (game.color !== 'red' && 'blue' && 'green' && 'yellow' && 'magenta')
+        const colors = ['red', 'blue', 'green', 'yellow', 'magenta'];
+        if (validator.isNotIn(update.color, colors))
             throw new routing_controllers_1.NotFoundError('Incorrect color input');
         return entity_1.default.merge(game, update).save();
     }
