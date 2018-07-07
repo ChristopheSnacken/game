@@ -26,6 +26,13 @@ export default class GameController {
     ) {
       const game = await Game.findOne(id)
       if (!game) throw new NotFoundError('Cannot find game')
+      if (game.color !== 'red'&& 'blue'&& 'green'&& 'yellow'&& 'magenta') throw new NotFoundError('Incorrect color input')
+      // const moves = (board1, board2) => 
+      //     board1
+      //   .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
+      //   .reduce((a, b) => a.concat(b))
+      //   .length
+
     
       return Game.merge(game, update).save()
     }
