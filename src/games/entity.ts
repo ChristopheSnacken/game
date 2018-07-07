@@ -12,8 +12,6 @@ const defaultBoard: Board =[
 @Entity()
 export default class Game extends BaseEntity {
 
-
-
   @PrimaryGeneratedColumn()
   id?: number
 

@@ -1,7 +1,8 @@
 import { JsonController, Param, Get, Put, Post, Body, NotFoundError} from 'routing-controllers'
 import Game from './entity'
 
-const colorSelection = ['red', 'blue', 'green', 'yellow', 'magenta']
+
+
 
 @JsonController()
 export default class GameController {
@@ -31,10 +32,12 @@ export default class GameController {
 
     @Post('/games')
     async createGame(
-      @Body() game: Game
-      
+      @Body() game: Game  
     ) {
-      const {...rest, board:} = game
+      const {...rest } = game
+      const colors = ['red', 'blue', 'green', 'yellow', 'magenta']
+      const colorSelection= colors[Math.floor(Math.random() * colors.length)]
+      rest.color = colorSelection
       const entity = Game.create(rest)
       return entity.save()
     }

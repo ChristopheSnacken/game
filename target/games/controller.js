@@ -39,6 +39,9 @@ let GameController = class GameController {
     }
     async createGame(game) {
         const rest = __rest(game, []);
+        const colors = ['red', 'blue', 'green', 'yellow', 'magenta'];
+        const colorSelection = colors[Math.floor(Math.random() * colors.length)];
+        rest.color = colorSelection;
         const entity = entity_1.default.create(rest);
         return entity.save();
     }
