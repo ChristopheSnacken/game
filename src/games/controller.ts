@@ -27,16 +27,17 @@ export default class GameController {
     ) {
       const game = await Game.findOne(id)
       if (!game) throw new NotFoundError('Cannot find game')
+
       const colors = ['red','blue','green', 'yellow', 'magenta']
-      // if (update.color !== 'red' || 'blue'|| 'green'|| 'yellow'|| 'magenta') throw new NotFoundError('Incorrect color input')
       if ( validator.isNotIn(update.color, colors)) throw new NotFoundError('Incorrect color input')
       
-      // const moves = (board1, board2) => 
-      //     board1
-      //   .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
-      //   .reduce((a, b) => a.concat(b))
-      //   .length
-      // if (moves(game.board, update.board) !== 1 ) throw new NotFoundError('Too many moves')
+      const moves = (board1, board2) => 
+          board1
+        .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
+        .reduce((a, b) => a.concat(b))
+        .length
+      if (update.board == undefined) return Game.merge(game, update).save()
+      if (moves(game.board, update.board) !== 1 ) throw new NotFoundError('Too many moves')
 
     
       return Game.merge(game, update).save()
@@ -48,9 +49,9 @@ export default class GameController {
     ) {
       const {...rest} = game
       const colors = ['red', 'blue', 'green', 'yellow', 'magenta']
-      const colorSelection= colors[Math.floor(Math.random() * colors.length)]
-      rest.color = colorSelection
-      const entity = Game.create(rest)
+      const colorSelection= `${colors[Math.floor(Math.random() * colors.length)]}`
+      game.color = `${colorSelection}`
+      const entity = await Game.create(rest)
       return entity.save()
     }
 

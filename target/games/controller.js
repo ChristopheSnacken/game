@@ -40,14 +40,22 @@ let GameController = class GameController {
         const colors = ['red', 'blue', 'green', 'yellow', 'magenta'];
         if (validator.isNotIn(update.color, colors))
             throw new routing_controllers_1.NotFoundError('Incorrect color input');
+        const moves = (board1, board2) => board1
+            .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
+            .reduce((a, b) => a.concat(b))
+            .length;
+        if (update.board == undefined)
+            return entity_1.default.merge(game, update).save();
+        if (moves(game.board, update.board) !== 1)
+            throw new routing_controllers_1.NotFoundError('Too many moves');
         return entity_1.default.merge(game, update).save();
     }
     async createGame(game) {
         const rest = __rest(game, []);
         const colors = ['red', 'blue', 'green', 'yellow', 'magenta'];
-        const colorSelection = colors[Math.floor(Math.random() * colors.length)];
-        rest.color = colorSelection;
-        const entity = entity_1.default.create(rest);
+        const colorSelection = `${colors[Math.floor(Math.random() * colors.length)]}`;
+        game.color = `${colorSelection}`;
+        const entity = await entity_1.default.create(rest);
         return entity.save();
     }
 };
