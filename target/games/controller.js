@@ -38,7 +38,7 @@ let GameController = class GameController {
         if (update.board == undefined)
             return entity_1.default.merge(game, update).save();
         if (moves(game.board, update.board) !== 1)
-            throw new routing_controllers_1.NotFoundError('Too many moves');
+            throw new routing_controllers_1.NotFoundError('Too many moves1');
         return entity_1.default.merge(game, update).save();
     }
     createGame(name) {

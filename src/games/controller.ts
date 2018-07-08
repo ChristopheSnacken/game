@@ -37,7 +37,7 @@ export default class GameController {
         .reduce((a, b) => a.concat(b))
         .length
     if (update.board == undefined) return Game.merge(game, update).save()
-    if (moves(game.board, update.board) !== 1) throw new NotFoundError('Too many moves')
+    if (moves(game.board, update.board) !== 1) throw new NotFoundError('Too many moves1')
 
 
     return Game.merge(game, update).save()
@@ -55,8 +55,8 @@ export default class GameController {
 
   createGame(
     @BodyParam("name") name: string
-  
-  ){
+
+  ) {
     const colors = ['red', 'blue', 'green', 'yellow', 'magenta']
     const colorSelection = colors[Math.floor(Math.random() * colors.length)]
     const newGame = new Game()
